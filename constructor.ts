@@ -1,4 +1,10 @@
-const arg = ["0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2","0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db","0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB"];
+const name_ = "VoteCoin"
+const symbol_ = "VC"
+const _amount = 300;
 
 
-export default arg;
+module.exports = [
+    name_,
+    symbol_,
+    _amount
+];

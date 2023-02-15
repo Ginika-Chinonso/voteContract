@@ -2,14 +2,19 @@ import { ethers } from "hardhat";
 import { any } from "hardhat/internal/core/params/argumentTypes";
 
 async function main() {
-  const [addr1, addr2, addr3, addr4, addr5, addr6] = await ethers.getSigners();
+  const [addr1, addr2, addr3] = await ethers.getSigners();
   const _contenders = ["0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2","0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db","0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB"];
+  const addr1vote = ["0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2","0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db","0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB"];
+  const addr2vote = ["0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db", "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2","0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB"];
+  const addr3vote = ["0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB","0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db", "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2"];
+
   const ONE_GWEI = 1_000_000_000;
 
 
 
+
   const VoteContract = await ethers.getContractFactory("voteContract");
-  const voteContract = await VoteContract.deploy("Nonso", "NC", 30);
+  const voteContract = await VoteContract.deploy("VoteCoin", "VC", 300);
   await voteContract.deployed
 
 
@@ -29,9 +34,9 @@ async function main() {
   console.log(`Voting started: ${votingStarted}`);
 
   // Admin balance
-  console.log(await voteContract.balanceOf(addr1.address));
+  console.log(`The admin balance is: ${await voteContract.balanceOf(addr1.address)}`);
   // Token contract balance
-  console.log(await voteContract.balanceOf(tokenAddress));
+  console.log(`The token contract balance is: ${await voteContract.balanceOf(tokenAddress)}`);
 
 
   /***** First voter ****/
@@ -45,7 +50,7 @@ async function main() {
   console.log(await voteContract.balanceOf(addr1.address));
 
   //Vote
-  await voteContract.connect(addr1).vote(_contenders);
+  await voteContract.connect(addr1).vote(addr1vote);
   console.log("First Voter balance after voting");
   console.log(await voteContract.balanceOf(addr1.address));
 
@@ -61,7 +66,7 @@ async function main() {
   console.log(await voteContract.balanceOf(addr2.address));
 
   //Vote
-  await voteContract.connect(addr2).vote(_contenders);
+  await voteContract.connect(addr2).vote(addr2vote);
   console.log("Second Voter balance after voting");
   console.log(await voteContract.balanceOf(addr2.address));
 
@@ -78,7 +83,7 @@ async function main() {
   console.log(await voteContract.balanceOf(addr3.address));
 
   //Vote
-  await voteContract.connect(addr3).vote(_contenders);
+  await voteContract.connect(addr3).vote(addr3vote);
   console.log("Third Voter balance after voting");
   console.log(await voteContract.balanceOf(addr3.address));
 
